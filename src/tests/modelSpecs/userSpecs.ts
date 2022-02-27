@@ -1,8 +1,13 @@
-import { User } from "../../src/models/user";
+import { User } from "../../models/user";
+import { clearTestSuit, initTestSuite } from "../testUtils";
 
 const user = new User();
 describe("User Model", () => {
-  // Do methods exists
+  beforeAll(async () => {
+    await initTestSuite();
+  });
+
+  afterAll(async () => await clearTestSuit());
 
   it("should have create method", () => {
     expect(user.create).toBeDefined();
@@ -22,7 +27,7 @@ describe("User Model", () => {
     const result = await user.create({
       firstname: "test_fname",
       lastname: "test_lname",
-      password: "test_password",
+      password: "test_password"
     });
 
     expect(result.id?.toString()).toEqual("1");

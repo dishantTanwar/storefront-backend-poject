@@ -30,7 +30,6 @@ export class User {
       const conn = await client.connect();
       const result = await conn.query(SQL, [id]);
       conn.release();
-      console.log("inside user.show(): ", result.rows[0]);
       return result.rows[0];
     } catch (err) {
       console.log(`Could not GET user with id: ${id}. ${err}`);

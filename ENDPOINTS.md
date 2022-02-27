@@ -62,8 +62,8 @@ content-type: application/json
 {
 "quantity": "10",
 "status": "active",
-"userId": "2",
-"productId": "2"
+"user_id": "2",
+"product_id": "2"
 }
 ```
 

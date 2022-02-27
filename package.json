@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "ENV=test db-migrate db:drop storefront_backend_project_test && db-migrate db:create storefront_backend_project_test && db-migrate --env test up && jasmine-ts \"spec/**/*.ts\"",
+    "pretest": "ENV=test db-migrate db:drop storefront_backend_project_test && db-migrate db:create storefront_backend_project_test && ENV=test db-migrate --env test up",
+    "test": "ENV=test jasmine-ts \"src/tests/**/*.ts\"",
+    "posttest": "db-migrate db:drop storefront_backend_project_test",
     "tsc": "tsc",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",

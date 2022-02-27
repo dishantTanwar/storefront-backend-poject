@@ -7,7 +7,7 @@ const create = async (_req: Request, res: Response) => {
     const orderData: OrderType = {
       product_id: _req.body.product_id,
       user_id: _req.body.user_id,
-      quantity: _req.body.quantity,
+      quantity: parseInt(_req.body.quantity),
       status: _req.body.status
     };
 
@@ -15,6 +15,7 @@ const create = async (_req: Request, res: Response) => {
     res.status(200);
     res.json(result);
   } catch (error) {
+    console.log(error);
     res.status(500);
     res.json(error);
   }
@@ -22,7 +23,6 @@ const create = async (_req: Request, res: Response) => {
 
 const getActiveOrders = async (_req: Request, res: Response) => {
   try {
-    console.log("info: inside Route getActiveOrders ");
     const result = await order.getActiveOrders(_req.params.userId);
     res.status(200);
     res.json(result);

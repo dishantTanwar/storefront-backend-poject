@@ -1,6 +1,5 @@
 import bodyParser from "body-parser";
 import express, { Request, Response } from "express";
-import client from "./database";
 import orderRoutes from "./handlers/orderRoutes";
 import productRoutes from "./handlers/productRoutes";
 import userRoutes from "./handlers/userRoutes";
@@ -21,8 +20,9 @@ orderRoutes(app);
 
 app.listen(port, () => {
   console.log(`Server is running on port http://localhost:${port}/`);
-  console.log("get client:: ");
-  console.log(client);
+  // console.log("INFO: entering playground");
+  // playground();
+  // console.log("INFO: exitingg playground");
 });
 
 export default app;

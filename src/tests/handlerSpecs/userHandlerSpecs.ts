@@ -1,19 +1,22 @@
 import supertest from "supertest";
-import app from "../../src/server";
+import app from "../../server";
+import { clearTestSuit, initTestSuite } from "../testUtils";
 
 const request = supertest(app);
 
 describe("Test userRotues endpoints", () => {
-  beforeAll(() => {
-    process.env.ENV = "test";
+  beforeAll(async () => {
+    await initTestSuite();
   });
+
+  afterAll(async () => await clearTestSuit());
 
   it("Test POST /users ", async (done) => {
     try {
       const response = await request.post("/users").send({
         firstname: "test_fname",
         lastname: "test_lname",
-        password: "test_password",
+        password: "test_password"
       });
       expect(response.status).toBe(200);
       done();
