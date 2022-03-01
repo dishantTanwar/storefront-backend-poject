@@ -4,7 +4,7 @@
 
 This repo contains a Node and Express API. To get started, clone this repo and run `npm install` in your terminal at the project root.
 
-> To know about this API refer to REQUIREMENTS.md
+> To know about this API refer to [REQUIREMENTS.md](REQUIREMENTS.md)
 
 ## Required Technologies
 
@@ -19,7 +19,7 @@ Your application must make use of the following libraries:
 
 ## Steps to get this app `running` in your local-machine
 
-> Refer to `ENDPOINTS.md` to know about API endpoints
+> Refer to [ENDPOINTS.md](ENDPOINTS.md) to know about API endpoints
 
 1. `Clone this repo`
 
