@@ -1,7 +1,9 @@
 import { Application, Request, Response } from "express";
+import { Auth } from "../auth";
 import { Order, OrderType } from "../models/order";
 
 const order = new Order();
+const auth = new Auth();
 const create = async (_req: Request, res: Response) => {
   try {
     const orderData: OrderType = {
@@ -15,6 +17,7 @@ const create = async (_req: Request, res: Response) => {
     res.status(200);
     res.json(result);
   } catch (error) {
+    console.log("Error: inside orderRoutes.create");
     console.log(error);
     res.status(500);
     res.json(error);
@@ -45,8 +48,8 @@ const index = async (_req: Request, res: Response) => {
 
 const orderRoutes = (app: Application) => {
   app.get("/orders", index);
-  app.get("/orders/:userId", getActiveOrders);
-  app.post("/orders/", create);
+  app.get("/orders/:userId", auth.verifyAuthToken, getActiveOrders);
+  app.post("/orders/:userId", auth.verifyAuthToken, auth.isAuthorized, create);
 };
 
 export default orderRoutes;

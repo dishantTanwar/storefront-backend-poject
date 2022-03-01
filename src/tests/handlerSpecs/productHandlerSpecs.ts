@@ -1,22 +1,38 @@
 import supertest from "supertest";
 import app from "../../server";
-import { clearTestSuit, initTestSuite } from "../testUtils";
+import {
+  clearTestSuit,
+  fillTestSuit,
+  getAuthToken,
+  initTestSuite
+} from "../testUtils";
 
 const request = supertest(app);
 
 describe("Test productRotues endpoints", () => {
+  let authToken: string;
   beforeAll(async () => {
-    await initTestSuite();
+    try {
+      await initTestSuite();
+      await fillTestSuit();
+    } catch (error) {
+      console.log(error);
+    }
+
+    authToken = await getAuthToken();
   });
 
   afterAll(async () => await clearTestSuit());
 
   it("Test Add: POST /products ", async (done) => {
     try {
-      const response = await request.post("/products").send({
-        name: "tea cup",
-        price: "350"
-      });
+      const response = await request
+        .post("/products")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({
+          name: "tea cup",
+          price: "350"
+        });
       expect(response.status).toBe(200);
       done();
     } catch (err) {

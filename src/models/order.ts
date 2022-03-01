@@ -64,11 +64,18 @@ export class Order {
       const product = new Product();
 
       for (const order of active_orders) {
+        const userAllData: UserType = await user.show(order.user_id);
+        const userSecureData = {
+          id: userAllData.id,
+          username: userAllData.username,
+          firstname: userAllData.firstname,
+          lastname: userAllData.firstname
+        };
         orders.push({
           id: order.id,
           quantity: order.quantity,
           status: order.status,
-          user: await user.show(order.user_id),
+          user: userSecureData,
           product: await product.show(order.product_id)
         });
       }

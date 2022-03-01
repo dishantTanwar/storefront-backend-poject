@@ -27,9 +27,10 @@ describe("User Model", () => {
     const result = await user.create({
       firstname: "test_fname",
       lastname: "test_lname",
+      username: "test_username",
       password: "test_password"
     });
 
-    expect(result.id?.toString()).toEqual("1");
+    expect(result).toBeTruthy();
   });
 });

@@ -1,4 +1,6 @@
+import supertest from "supertest";
 import client from "../database";
+import app from "../server";
 
 export async function initTestSuite(): Promise<void> {
   try {
@@ -9,10 +11,11 @@ export async function initTestSuite(): Promise<void> {
       `DROP TABLE if exists products CASCADE`,
 
       `CREATE TABLE if not exists users (
-          id SERIAL PRIMARY KEY,
-          firstname VARCHAR(150),
-          lastname VARCHAR(150),
-          password VARCHAR(150));`,
+        id SERIAL PRIMARY KEY,
+        firstname VARCHAR(150),
+        lastname VARCHAR(150),
+        username VARCHAR(150) NOT NULL UNIQUE,
+        password VARCHAR(150));`,
       `CREATE TABLE if not exists products (
           id SERIAL PRIMARY KEY,
           name VARCHAR(150),
@@ -55,9 +58,10 @@ export async function clearTestSuit() {
 export async function fillTestSuit(): Promise<void> {
   try {
     const conn = await client.connect();
+    // 'test_password' == '$2b$10$ieOQgtlSTfR.fyACBSC5cuH7vvS2cEDarKYKj4hhGduAgibbvMkPW'
     const QUERIES = [
-      `INSERT INTO users(firstname, lastname, password) 
-            VALUES('test_fname','test_lnamne','test_password')`,
+      `INSERT INTO users(firstname, lastname, username, password) 
+            VALUES('test_fname','test_lnamne', 'test_username','$2b$10$ieOQgtlSTfR.fyACBSC5cuH7vvS2cEDarKYKj4hhGduAgibbvMkPW')`,
       `INSERT INTO products(name, price) VALUES('p_name', 100)`
     ];
     for (const query of QUERIES) {
@@ -67,5 +71,30 @@ export async function fillTestSuit(): Promise<void> {
   } catch (error) {
     console.log(`Error: fillling test dataase. ${error}`);
     throw new Error(`Error: filling test dataase. ${error}`);
+  }
+}
+export async function getAllUsers(): Promise<void> {
+  try {
+    const conn = await client.connect();
+    const result = await conn.query(`SELECT * FROM USERS`);
+    conn.release();
+    console.log("SELECT * FROM USERS");
+    console.log(result.rows);
+  } catch (error) {
+    console.log(`Error: select all users ${error}`);
+    throw new Error(`Error: select all users. ${error}`);
+  }
+}
+export async function getAuthToken(): Promise<string> {
+  try {
+    const result = await supertest(app).post("/users/authenticate").send({
+      username: "test_username",
+      password: "test_password"
+    });
+
+    return result.body.jwt as string;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`${error}`);
   }
 }

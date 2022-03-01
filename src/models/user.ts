@@ -1,15 +1,19 @@
+import bcrypt from "bcrypt";
+import dotenv from "dotenv";
+import { Auth } from "../auth";
 import client from "../database";
-
-// - Index [token required]: `'/users' [GET]`
-// - Show [token required]: `'/users/:userid' [GET]`
-// - Create [token required]: `'/users' [POST]`
 
 export type UserType = {
   id?: string;
   firstname: string;
   lastname: string;
-  password: string;
+  username: string;
+  password?: string;
 };
+
+dotenv.config();
+const PEPPER = process.env.PEPPER;
+const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS as string);
 
 export class User {
   async index(): Promise<UserType[]> {
@@ -37,18 +41,43 @@ export class User {
     }
   }
 
-  async create(user: UserType): Promise<UserType> {
+  async getUserIdForUsername(username: string): Promise<number> {
     try {
-      const sql = `INSERT INTO users(firstName, lastName, password) VALUES($1, $2, $3) RETURNING *`;
+      const SQL = `SELECT id FROM users WHERE username=($1)`;
       const conn = await client.connect();
+      const result = await conn.query(SQL, [username]);
+      conn.release();
+      return result.rows[0].id;
+    } catch (err) {
+      console.log(`Could not GET user with usename: ${username}. ${err}`);
+      throw new Error(`Could not GET user with id: ${username}. ${err}`);
+    }
+  }
+
+  async create(user: UserType): Promise<string> {
+    try {
+      const sql = `INSERT INTO users(firstName, lastName, username, password) VALUES($1, $2, $3, $4) RETURNING *`;
+      const conn = await client.connect();
+      const passwordHash = await bcrypt.hash(
+        (user.password as string) + PEPPER,
+        SALT_ROUNDS
+      );
       const result = await conn.query(sql, [
         user.firstname,
         user.lastname,
-        user.password
+        user.username,
+        passwordHash
       ]);
       conn.release();
 
-      return result.rows[0];
+      user = result.rows[0];
+      const auth = new Auth();
+      const jwtToken: string = await auth.generateToken({
+        user_id: parseInt(user.id as string),
+        username: user.username
+      });
+
+      return jwtToken;
     } catch (err) {
       console.log(`Could not CREATE user. ${err}`);
       throw new Error(`Could not CREATE user. ${err}`);
