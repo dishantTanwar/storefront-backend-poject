@@ -4,7 +4,7 @@
 
 REQUEST
 
-```curl
+```js
 
 POST http://localhost:3000/users HTTP/1.1
 content-type: application/json
@@ -19,21 +19,23 @@ content-type: application/json
 
 RESPONSE
 
-```curl
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g"
+```js
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g";
 ```
 
 ### 2. **Index**: get a list of all users
 
-```
+REQUEST:
+
+```js
 GET http://localhost:3000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g
 
 ```
 
-RESPONSE
+RESPONSE:
 
-```curl
+```js
 [
   {
     "id": 1,
@@ -56,7 +58,7 @@ RESPONSE
 
 REQUEST:
 
-```
+```js
 GET http://localhost:3000/users/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g
 
@@ -64,7 +66,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfa
 
 RESPONSE:
 
-```curl
+```js
 {
   "id": 1,
   "firstname": "dishant",
@@ -78,7 +80,7 @@ RESPONSE:
 
 REQUEST:
 
-```curl
+```js
 POST http://localhost:3000/users/authenticate HTTP/1.1
 content-type: application/json
 
@@ -90,7 +92,7 @@ content-type: application/json
 
 RESPONSE:
 
-```curl
+```js
 {
   "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIzNjN9.cIUEhWHRltvps9tpGX-ZnipQsBIpNpZH40HsbzNbSDM",
   "message": "Success: user is authenticated"
@@ -101,7 +103,9 @@ RESPONSE:
 
 ### 1. **Create**: add a product
 
-```
+REQUEST:
+
+```js
 POST http://localhost:3000/products HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g
@@ -112,37 +116,47 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfa
 }
 ```
 
+RESPONSE:
+
+```js
+{
+    id: 1,
+    name: "football",
+    price: "200.00"
+}
+```
+
 ### 2. **Index**: get a list of all products
 
 REQUEST:
 
-```curl
+```js
 GET http://localhost:3000/products
 ```
 
 RESPONSE:
 
-```curl
- [
+```js
+[
   {
-    "id": 1,
-    "name": "football",
-    "price": "200.00"
+    id: 1,
+    name: "football",
+    price: "200.00"
   }
-]
+];
 ```
 
 ### 3. **Show**: get a product with poduct_id
 
 REQUEST:
 
-```curl
+```js
 GET http://localhost:3000/products/1
 ```
 
 RESPONSE:
 
-```curl
+```js
 {
     "id": 1,
     "name": "football",
@@ -156,7 +170,7 @@ RESPONSE:
 
 REQUEST:
 
-```curl
+```js
 POST http://localhost:3000/orders/1 HTTP/1.1
 content-type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g
@@ -171,7 +185,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfa
 
 RESPONSE:
 
-```curl
+```js
 {
   "id": 1,
   "quantity": "5",
@@ -183,30 +197,32 @@ RESPONSE:
 
 ### 2. **Index**: get a list of all orders
 
-REQUEST
+REQUEST:
 
-```curl
+```js
 GET http://localhost:3000/orders
 
 ```
 
 RESPONSE:
 
-```curl
+```js
 [
   {
-    "id": 1,
-    "quantity": "5",
-    "status": "active",
-    "user_id": "1",
-    "product_id": "1"
+    id: 1,
+    quantity: "5",
+    status: "active",
+    user_id: "1",
+    product_id: "1"
   }
-]
+];
 ```
 
 ### 3. **Show**: get current orders for user using user id.
 
-```
+REQUEST:
+
+```js
 GET http://localhost:3000/orders/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjEsInVzZXJuYW1lIjoiZGlzaGFudFRhbndhciJ9LCJpYXQiOjE2NDYxNjIwMTl9.ul0LP0xtYcOseF6eZasc3xQPZlEnF4VoNOa52p0Ml8g
 
@@ -214,23 +230,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfa
 
 RESPONSE:
 
-```curl
+```js
 [
   {
-    "id": 1,
-    "quantity": "5",
-    "status": "active",
-    "user": {
-      "id": 1,
-      "username": "dishantTanwar",
-      "firstname": "dishant",
-      "lastname": "dishant"
+    id: 1,
+    quantity: "5",
+    status: "active",
+    user: {
+      id: 1,
+      username: "dishantTanwar",
+      firstname: "dishant",
+      lastname: "dishant"
     },
-    "product": {
-      "id": 1,
-      "name": "football",
-      "price": "200.00"
+    product: {
+      id: 1,
+      name: "football",
+      price: "200.00"
     }
   }
-]
+];
 ```
