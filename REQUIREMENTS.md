@@ -44,6 +44,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 #### Orders
 
 - id
+- order_id
 - id of each product in the order
 - quantity of each product in the order
 - user_id

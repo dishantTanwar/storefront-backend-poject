@@ -8,6 +8,7 @@ export enum Status {
 }
 export type OrderType = {
   id?: string;
+  order_id: number;
   quantity: number;
   status: Status;
   user_id: string;
@@ -24,9 +25,10 @@ export type OrderDetails = {
 export class Order {
   async create(order: OrderType): Promise<OrderType> {
     try {
-      const SQL = `INSERT INTO orders(quantity, status, user_id, product_id) VALUES($1, $2, $3, $4) RETURNING *`;
+      const SQL = `INSERT INTO orders(quantity, order_id, status, user_id, product_id) VALUES($1, $2, $3, $4, $5) RETURNING *`;
       const conn = await client.connect();
       const result = await conn.query(SQL, [
+        order.order_id,
         order.quantity,
         order.status,
         order.user_id,

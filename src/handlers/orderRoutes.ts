@@ -7,6 +7,7 @@ const auth = new Auth();
 const create = async (_req: Request, res: Response) => {
   try {
     const orderData: OrderType = {
+      order_id: _req.body.order_id,
       product_id: _req.body.product_id,
       user_id: _req.body.user_id,
       quantity: parseInt(_req.body.quantity),

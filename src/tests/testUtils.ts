@@ -22,6 +22,7 @@ export async function initTestSuite(): Promise<void> {
           price NUMERIC(12, 2));`,
       `CREATE TABLE if not exists orders (
         id SERIAL PRIMARY KEY,
+        order_id BIGINT,
         quantity BIGINT,
         status VARCHAR(15),
         user_id BIGINT REFERENCES users(id),

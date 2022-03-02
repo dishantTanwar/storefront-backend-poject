@@ -27,6 +27,7 @@ describe("Test ordersRotues endpoints", () => {
   const req = {
     quantity: 10,
     status: "active",
+    order_id: "1",
     user_id: "1",
     product_id: "1"
   };
